@@ -6,6 +6,7 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
+  ReferenceLine,
 } from "recharts"
 
 const generateFakeData = () => {
@@ -98,22 +99,32 @@ const YTD = ({ from = "BTC", to = "ETH", fakeData = true }) => {
     return date.toLocaleDateString("en-US", { month: "short" })
   }
 
+  const formatYAxis = value => {
+    return value.toLocaleString(undefined, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    })
+  }
+
+  const minValue = Math.min(...data.map(item => item.close))
+  const maxValue = Math.max(...data.map(item => item.close))
+
   return (
     <div className="w-full py-2 font-sans">
       <div className="w-full h-96">
         <ResponsiveContainer>
-          <LineChart data={data}>
+          <LineChart
+            data={data}
+            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+          >
             <XAxis
               dataKey="time"
               tickFormatter={formatXAxis}
               tick={{ fontSize: 12, fill: "#4B5563" }}
-              interval={30} // Show approximately one tick per month
+              interval={30}
               axisLine={{ stroke: "#4B5563" }}
             />
-            <YAxis
-              tick={{ fontSize: 12, fill: "#4B5563" }}
-              axisLine={{ stroke: "#4B5563" }}
-            />
+            <YAxis hide={true} domain={[minValue, maxValue]} />
             <Tooltip content={<CustomTooltip />} />
             <Line
               type="monotone"
@@ -122,6 +133,28 @@ const YTD = ({ from = "BTC", to = "ETH", fakeData = true }) => {
               strokeWidth={2}
               dot={false}
               activeDot={{ r: 8, fill: "#232323" }}
+            />
+            <ReferenceLine
+              y={minValue}
+              stroke="#4B5563"
+              strokeDasharray="3 3"
+              label={{
+                position: "insideTopLeft",
+                value: formatYAxis(minValue),
+                fill: "#4B5563",
+                fontSize: 12,
+              }}
+            />
+            <ReferenceLine
+              y={maxValue}
+              stroke="#4B5563"
+              strokeDasharray="3 3"
+              label={{
+                position: "insideBottomLeft",
+                value: formatYAxis(maxValue),
+                fill: "#4B5563",
+                fontSize: 12,
+              }}
             />
           </LineChart>
         </ResponsiveContainer>
