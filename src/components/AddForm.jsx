@@ -41,20 +41,28 @@ const FieldWrapper = styled.div.attrs({
 export default function AddForm({ handleSubmit }) {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const [fromValue, setFromValue] = useState(1);
 
   const handleChange = (field, value) => {
     if (field === "from") {
       setFrom(value.toUpperCase());
     } else if (field === "to") {
       setTo(value.toUpperCase());
+    } else if (field === "fromValue") {
+      setFromValue(value)
     }
   };
 
-  const submit = () => handleSubmit(from, to);
+  const submit = () => handleSubmit(from, to, fromValue);
 
   return (
     <FieldWrapper>
       <FieldSet>
+      <Field
+          value={fromValue}
+          placeholder="1"
+          onChange={(e) => handleChange("fromValue", e.target.value)}
+        />
         <Field
           value={from}
           placeholder="From"
