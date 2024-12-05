@@ -13,8 +13,8 @@ export function App() {
   const [pairs, setPairs] = useLocalStorage("pairs", sampleData)
   const [editMode, setEditMode] = useState(false)
 
-  const addPair = (from, to) => {
-    setPairs([...pairs, { from, to }])
+  const addPair = (from, to, fromValue) => {
+    setPairs([...pairs, { from, to, fromValue }])
     setViewMode(!viewMode)
   }
 

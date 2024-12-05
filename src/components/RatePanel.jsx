@@ -15,6 +15,7 @@ const theme = {
 function RatePanel({
   from,
   to,
+  fromValue = 1,
   precision = 2,
   editMode,
   handleRemove = () => console.log("will remove!"),
@@ -24,11 +25,11 @@ function RatePanel({
   const { rate, error } = useFetch(from, to, API)
 
   const isLoading = rate === null && error === null
-  const roundedRate = rate && parseFloat(rate).toFixed(precision)
+  const roundedRate = rate && (parseFloat(rate) * fromValue).toFixed(precision)
 
   let message = isLoading
     ? "Loading rate..."
-    : `1 ${from} = ${roundedRate} ${to}`
+    : `${fromValue} ${from} = ${roundedRate} ${to}`
 
   if (error) {
     message = `Error: ${error}`
