@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import { Analytics } from "@vercel/analytics/react"
 
 import RatePanel from "./components/RatePanel"
 import AddForm from "./components/AddForm"
@@ -49,7 +48,6 @@ export function App() {
           </div>
         </Footer>
       </Container>
-      <Analytics />
     </Wrapper>
   )
 }
