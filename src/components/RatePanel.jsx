@@ -22,7 +22,11 @@ function RatePanel({
   API,
 }) {
   const [graphMode, setGraphMode] = useState(false)
-  const { rate, error } = useFetch(from, to, API)
+  const { rate, error, failed } = useFetch(from, to, API)
+
+  if (failed) {
+    return null
+  }
 
   const isLoading = rate === null && error === null
   const roundedRate = rate && (parseFloat(rate) * fromValue).toFixed(precision)

@@ -2,14 +2,14 @@ import { Chart } from "react-google-charts";
 import { useHistoryFetch } from "./useHistoryFetch";
 
 function Graph({ from, to }) {
-  const { ratios, isLoading } = useHistoryFetch(from, to);
+  const { ratios, isLoading, failed } = useHistoryFetch(from, to);
 
   if (isLoading) {
     return <div>Waiting for Data</div>;
   }
 
-  if (!ratios || ratios.length === 0) {
-    return <div>No data available</div>;
+  if (failed || !ratios || ratios.length === 0) {
+    return null;
   }
 
   return (
